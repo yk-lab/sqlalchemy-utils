@@ -7,16 +7,16 @@ from sqlalchemy_utils.types import pendulum
 
 
 @pytest.fixture
-def Article(Base):
-    class Article(Base):
-        __tablename__ = 'article'
+def User(Base):
+    class User(Base):
+        __tablename__ = 'users'
         id = sa.Column(sa.Integer, primary_key=True)
-        created_at = sa.Column(pendulum.PendulumType)
-    return Article
+        birthday = sa.Column(pendulum.PendulumType)
+    return User
 
 
 @pytest.fixture
-def init_models(Article):
+def init_models(User):
     pass
 
 
@@ -24,40 +24,46 @@ def init_models(Article):
 class TestPendulumDateTimeType(object):
 
     def test_parameter_processing(self, session, Article):
-        article = Article(
-            created_at=pendulum.pendulum.datetime(2000, 11, 1)
+        user = User(
+            birthday=pendulum.pendulum.datetime(2000, 11, 1)
         )
 
-        session.add(article)
+        session.add(user)
         session.commit()
 
-        article = session.query(Article).first()
-        assert article.created_at.datetime
+        user = session.query(User).first()
+        assert user.birthday.datetime
+
+    def test_int_coercion(self, Article):
+        user = User(
+            birthday=1367900664
+        )
+        assert user.birthday.year == 2013
 
     def test_string_coercion(self, Article):
-        article = Article(
-            created_at='1367900664'
+        user = User(
+            birthday='1367900664'
         )
-        assert article.created_at.year == 2013
+        assert user.birthday.year == 2013
 
-    def test_utc(self, session, Article):
+    def test_utc(self, session, User):
         time = pendulum.pendulum.utcnow()
-        article = Article(created_at=time)
-        session.add(article)
-        assert article.created_at == time
+        user = User(created_at=time)
+        session.add(user)
+        assert user.birthday == time
         session.commit()
-        assert article.created_at == time
+        assert user.birthday == time
 
-    def test_other_tz(self, session, Article):
+    def test_other_tz(self, session, User):
         time = pendulum.pendulum.utcnow()
-        local = time.to('US/Pacific')
-        article = Article(created_at=local)
-        session.add(article)
-        assert article.created_at == time == local
+        local = time.in_tz('US/Pacific')
+        user = User(birthday=local)
+        session.add(user)
+        assert user.birthday == time == local
         session.commit()
-        assert article.created_at == time
+        assert user.birthday == time
 
-    def test_literal_param(self, session, Article):
-        clause = Article.created_at > '2015-01-01'
+    def test_literal_param(self, session, User):
+        clause = user.birthday > '2015-01-01'
         compiled = str(clause.compile(compile_kwargs={"literal_binds": True}))
-        assert compiled == 'article.created_at > 2015-01-01'
+        assert compiled == 'user.birthday > 2015-01-01'
