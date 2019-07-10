@@ -42,8 +42,15 @@ class PendulumType(types.TypeDecorator, ScalarCoercible):
 
     @staticmethod
     def _coerce(value):
-        if value and not isinstance(value, pendulum.datetime.DateTime):
-            value = pendulum.parse(value)
+        if value:
+            if isinstance(value, pendulum.DateTime):
+                pass
+            elif isinstance(value, int):
+                value = pendulum.from_timestamp(value)
+            elif isinstance(value, str) and value.isdecimal():
+                value = pendulum.from_timestamp(int(value))
+            else:
+                value = pendulum.parse(value)
         return value
 
     def process_bind_param(self, value, dialect):
@@ -53,7 +60,7 @@ class PendulumType(types.TypeDecorator, ScalarCoercible):
 
     def process_result_value(self, value, dialect):
         if value:
-            return pendulum.parse(value)
+            return pendulum.parse(value.isoformat())
         return value
 
     def process_literal_param(self, value, dialect):
