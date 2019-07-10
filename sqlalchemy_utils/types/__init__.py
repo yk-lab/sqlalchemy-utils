@@ -3,6 +3,7 @@ from functools import wraps
 from sqlalchemy.orm.collections import InstrumentedList as _InstrumentedList
 
 from .arrow import ArrowType  # noqa
+from .pendulum import PendulumType
 from .choice import Choice, ChoiceType  # noqa
 from .color import ColorType  # noqa
 from .country import CountryType  # noqa
