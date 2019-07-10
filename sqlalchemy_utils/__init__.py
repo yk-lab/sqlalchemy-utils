@@ -81,6 +81,7 @@ from .types import (  # noqa
     NumericRangeType,
     Password,
     PasswordType,
+    PendulumType,
     PhoneNumber,
     PhoneNumberParseException,
     PhoneNumberType,
