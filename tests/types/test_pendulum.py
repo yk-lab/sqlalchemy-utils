@@ -12,8 +12,6 @@ def Article(Base):
         __tablename__ = 'article'
         id = sa.Column(sa.Integer, primary_key=True)
         created_at = sa.Column(pendulum.PendulumType)
-        published_at = sa.Column(arrow.ArrowType(timezone=True))
-        published_at_dt = sa.Column(sa.DateTime(timezone=True))
     return Article
 
 
@@ -34,8 +32,6 @@ class TestPendulumDateTimeType(object):
         session.commit()
 
         article = session.query(Article).first()
-        assert 1 == 2
-        print(article)
         assert article.created_at.datetime
 
     def test_string_coercion(self, Article):
