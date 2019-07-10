@@ -38,7 +38,7 @@ class PendulumType(types.TypeDecorator, ScalarCoercible):
                 "'pendulum' package is required to use 'PendulumType'"
             )
 
-        super(ArrowType, self).__init__(*args, **kwargs)
+        super(PendulumType, self).__init__(*args, **kwargs)
 
     @staticmethod
     def _coerce(value):
