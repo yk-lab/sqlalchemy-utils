@@ -23,7 +23,7 @@ def init_models(User):
 @pytest.mark.skipif('pendulum.pendulum is None')
 class TestPendulumDateTimeType(object):
 
-    def test_parameter_processing(self, session, Article):
+    def test_parameter_processing(self, session, User):
         user = User(
             birthday=pendulum.pendulum.datetime(2000, 11, 1)
         )
@@ -34,28 +34,28 @@ class TestPendulumDateTimeType(object):
         user = session.query(User).first()
         assert user.birthday.datetime
 
-    def test_int_coercion(self, Article):
+    def test_int_coercion(self, User):
         user = User(
             birthday=1367900664
         )
         assert user.birthday.year == 2013
 
-    def test_string_coercion(self, Article):
+    def test_string_coercion(self, User):
         user = User(
             birthday='1367900664'
         )
         assert user.birthday.year == 2013
 
     def test_utc(self, session, User):
-        time = pendulum.pendulum.utcnow()
-        user = User(created_at=time)
+        time = pendulum.pendulum.now("UTC")
+        user = User(birthday=time)
         session.add(user)
         assert user.birthday == time
         session.commit()
         assert user.birthday == time
 
     def test_other_tz(self, session, User):
-        time = pendulum.pendulum.utcnow()
+        time = pendulum.pendulum.now("UTC")
         local = time.in_tz('US/Pacific')
         user = User(birthday=local)
         session.add(user)
