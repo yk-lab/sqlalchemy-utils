@@ -51,7 +51,7 @@ class PendulumDateTimeType(types.TypeDecorator, ScalarCoercible):
                 pass
             elif isinstance(value, int):
                 value = pendulum.from_timestamp(value)
-            elif isinstance(value, str) and value.isdecimal():
+            elif (isinstance(value, str) or isinstance(value, unicode)) and value.isdecimal():
                 value = pendulum.from_timestamp(int(value))
             else:
                 value = pendulum.parse(value)
@@ -116,7 +116,7 @@ class PendulumDateType(types.TypeDecorator, ScalarCoercible):
                 value = value.date()
             elif isinstance(value, int):
                 value = pendulum.from_timestamp(value).date()
-            elif isinstance(value, str) and value.isdecimal():
+            elif (isinstance(value, str) or isinstance(value, unicode)) and value.isdecimal():
                 value = pendulum.from_timestamp(int(value)).date()
             else:
                 value = pendulum.parse(value).date()
