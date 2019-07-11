@@ -67,7 +67,7 @@ class TestPendulumDateType(object):
     def test_literal_param(self, session, User):
         clause = User.birthday > '2015-01-01'
         compiled = str(clause.compile(compile_kwargs={"literal_binds": True}))
-        assert compiled == 'user.birthday > 2015-01-01'
+        assert compiled == 'users.birthday > 2015-01-01'
 
 
 @pytest.mark.skipif('pendulum.pendulum is None')

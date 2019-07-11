@@ -1,3 +1,5 @@
+from __future__ import absolute_import
+
 from sqlalchemy import types
 
 from ..exceptions import ImproperlyConfigured
