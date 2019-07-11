@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, date
 
 import pytest
 import sqlalchemy as sa
@@ -33,7 +33,7 @@ def init_models(User):
             session.commit()
 
             user = session.query(User).first()
-            assert user.birthday.date
+            assert isinstance(user.birthday, date)
 
         def test_int_coercion(self, User):
             user = User(
@@ -81,7 +81,7 @@ class TestPendulumDateTimeType(object):
         session.commit()
 
         user = session.query(User).first()
-        assert user.created_at.datetime
+        assert isinstance(user.created_at, datetime)
 
     def test_int_coercion(self, User):
         user = User(

@@ -55,7 +55,7 @@ class PendulumDateTimeType(types.TypeDecorator, ScalarCoercible):
 
     def process_bind_param(self, value, dialect):
         if value:
-            return self._coerce(value)
+            return self._coerce(value).in_tz("UTC")
         return value
 
     def process_result_value(self, value, dialect):
