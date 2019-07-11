@@ -21,53 +21,54 @@ def init_models(User):
     pass
 
 
-    @pytest.mark.skipif('pendulum.pendulum is None')
-    class TestPendulumDateType(object):
+@pytest.mark.skipif('pendulum.pendulum is None')
+class TestPendulumDateType(object):
 
-        def test_parameter_processing(self, session, User):
-            user = User(
-                birthday=pendulum.pendulum.date(1995, 7, 11)
-            )
+    def test_parameter_processing(self, session, User):
+        user = User(
+            birthday=pendulum.pendulum.date(1995, 7, 11)
+        )
 
-            session.add(user)
-            session.commit()
+        session.add(user)
+        session.commit()
 
-            user = session.query(User).first()
-            assert isinstance(user.birthday, date)
+        user = session.query(User).first()
+        assert isinstance(user.birthday, date)
 
-        def test_int_coercion(self, User):
-            user = User(
-                birthday=1367900664
-            )
-            assert user.birthday.year == 2013
+    def test_int_coercion(self, User):
+        user = User(
+            birthday=1367900664
+        )
+        assert user.birthday.year == 2013
 
-        def test_string_coercion(self, User):
-            user = User(
-                birthday='1367900664'
-            )
-            assert user.birthday.year == 2013
+    def test_string_coercion(self, User):
+        user = User(
+            birthday='1367900664'
+        )
+        assert user.birthday.year == 2013
 
-        def test_utc(self, session, User):
-            time = pendulum.pendulum.now("UTC")
-            user = User(birthday=time)
-            session.add(user)
-            assert user.birthday == time
-            session.commit()
-            assert user.birthday == time
+    def test_utc(self, session, User):
+        time = pendulum.pendulum.now("UTC")
+        user = User(birthday=time)
+        session.add(user)
+        assert user.birthday == time
+        session.commit()
+        assert user.birthday == time
 
-        def test_other_tz(self, session, User):
-            time = pendulum.pendulum.now("UTC")
-            local = time.in_tz('Asia/Tokyo')
-            user = User(birthday=local)
-            session.add(user)
-            assert user.birthday == time == local
-            session.commit()
-            assert user.birthday == time
+    def test_other_tz(self, session, User):
+        time = pendulum.pendulum.now("UTC")
+        local = time.in_tz('Asia/Tokyo')
+        user = User(birthday=local)
+        session.add(user)
+        assert user.birthday == time == local
+        session.commit()
+        assert user.birthday == time
 
-        def test_literal_param(self, session, User):
-            clause = User.birthday > '2015-01-01'
-            compiled = str(clause.compile(compile_kwargs={"literal_binds": True}))
-            assert compiled == 'user.birthday > 2015-01-01'
+    def test_literal_param(self, session, User):
+        clause = User.birthday > '2015-01-01'
+        compiled = str(clause.compile(compile_kwargs={"literal_binds": True}))
+        assert compiled == 'user.birthday > 2015-01-01'
+
 
 @pytest.mark.skipif('pendulum.pendulum is None')
 class TestPendulumDateTimeType(object):
