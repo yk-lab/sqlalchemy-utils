@@ -15,14 +15,14 @@ class PendulumDateTimeType(types.TypeDecorator, ScalarCoercible):
     Example::
 
 
-        from sqlalchemy_utils import PendulumType
+        from sqlalchemy_utils import PendulumDateType
         import pendulum
 
 
         class User(Base):
             __tablename__ = 'user'
             id = sa.Column(sa.Integer, primary_key=True)
-            birthday = sa.Column(PendulumType)
+            birthday = sa.Column(PendulumDateType)
 
 
         user = User()
