@@ -1,4 +1,6 @@
 from sqlalchemy import types
+
+from ..exceptions import ImproperlyConfigured
 from .scalar_coercible import ScalarCoercible
 
 pendulum = None
@@ -69,6 +71,7 @@ class PendulumDateTimeType(types.TypeDecorator, ScalarCoercible):
     @property
     def python_type(self):
         return self.impl.type.python_type
+
 
 class PendulumDateType(types.TypeDecorator, ScalarCoercible):
     """

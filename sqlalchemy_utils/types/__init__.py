@@ -3,7 +3,7 @@ from functools import wraps
 from sqlalchemy.orm.collections import InstrumentedList as _InstrumentedList
 
 from .arrow import ArrowType  # noqa
-from .pendulum import (
+from .pendulum import (  # noqa
     PendulumDateType,
     PendulumDateTimeType
 )
