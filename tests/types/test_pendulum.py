@@ -53,16 +53,7 @@ class TestPendulumDateType(object):
         session.add(user)
         assert user.birthday == time
         session.commit()
-        assert user.birthday == time
-
-    def test_other_tz(self, session, User):
-        time = pendulum.pendulum.now("UTC")
-        local = time.in_tz('Asia/Tokyo')
-        user = User(birthday=local)
-        session.add(user)
-        assert user.birthday == time == local
-        session.commit()
-        assert user.birthday == time
+        assert user.birthday == time.date()
 
     def test_literal_param(self, session, User):
         clause = User.birthday > '2015-01-01'
