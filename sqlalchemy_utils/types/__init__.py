@@ -3,10 +3,6 @@ from functools import wraps
 from sqlalchemy.orm.collections import InstrumentedList as _InstrumentedList
 
 from .arrow import ArrowType  # noqa
-from .pendulum import (  # noqa
-    PendulumDateType,
-    PendulumDateTimeType
-)
 from .choice import Choice, ChoiceType  # noqa
 from .color import ColorType  # noqa
 from .country import CountryType  # noqa
@@ -18,6 +14,7 @@ from .json import JSONType  # noqa
 from .locale import LocaleType  # noqa
 from .ltree import LtreeType  # noqa
 from .password import Password, PasswordType  # noqa
+from .pendulum import PendulumDateTimeType, PendulumDateType  # noqa
 from .pg_composite import (  # noqa
     CompositeArray,
     CompositeType,

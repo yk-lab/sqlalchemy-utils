@@ -1,6 +1,6 @@
 from __future__ import absolute_import
-import six
 
+import six
 from sqlalchemy import types
 
 from ..exceptions import ImproperlyConfigured
