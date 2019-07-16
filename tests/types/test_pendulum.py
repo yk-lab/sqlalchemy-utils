@@ -1,6 +1,6 @@
 from __future__ import unicode_literals
 
-from datetime import datetime, date
+from datetime import date, datetime
 
 import pytest
 import sqlalchemy as sa
