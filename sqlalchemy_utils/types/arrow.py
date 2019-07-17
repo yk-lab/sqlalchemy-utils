@@ -1,22 +1,8 @@
 from __future__ import absolute_import
 
-from collections import Iterable
-from datetime import datetime
+from .enriched_datetime import EnrichedDateTimeType
 
-import six
-from sqlalchemy import types
-
-from ..exceptions import ImproperlyConfigured
-from .scalar_coercible import ScalarCoercible
-
-arrow = None
-try:
-    import arrow
-except ImportError:
-    pass
-
-
-class ArrowType(types.TypeDecorator, ScalarCoercible):
+class ArrowType(EnrichedDateTimeType):
     """
     ArrowType provides way of saving Arrow_ objects into database. It
     automatically changes Arrow_ objects to datetime objects on the way in and
@@ -62,33 +48,4 @@ class ArrowType(types.TypeDecorator, ScalarCoercible):
                 "'arrow' package is required to use 'ArrowType'"
             )
 
-        super(ArrowType, self).__init__(*args, **kwargs)
-
-    def process_bind_param(self, value, dialect):
-        if value:
-            utc_val = self._coerce(value).to('UTC')
-            return utc_val.datetime if self.impl.timezone else utc_val.naive
-        return value
-
-    def process_result_value(self, value, dialect):
-        if value:
-            return arrow.get(value)
-        return value
-
-    def process_literal_param(self, value, dialect):
-        return str(value)
-
-    def _coerce(self, value):
-        if value is None:
-            return None
-        elif isinstance(value, six.string_types):
-            value = arrow.get(value)
-        elif isinstance(value, Iterable):
-            value = arrow.get(*value)
-        elif isinstance(value, datetime):
-            value = arrow.get(value)
-        return value
-
-    @property
-    def python_type(self):
-        return self.impl.type.python_type
+        super(ArrowType, self).__init__(type="arrow", *args, **kwargs)
