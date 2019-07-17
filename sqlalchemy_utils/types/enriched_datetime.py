@@ -1,5 +1,8 @@
 from __future__ import absolute_import
 
+from collections import Iterable
+from datetime import datetime
+
 import six
 from sqlalchemy import types
 
@@ -49,7 +52,8 @@ class EnrichedDateTimeType(types.TypeDecorator, ScalarCoercible):
         if type == "pendulum":
             if not pendulum:
                 raise ImproperlyConfigured(
-                    "'pendulum' package is required to use 'EnrichedDateTimeType'"
+                    "'pendulum' package is required"
+                    " to use 'EnrichedDateTimeType'"
                 )
         elif type == "arrow":
             if not arrow:
@@ -57,10 +61,9 @@ class EnrichedDateTimeType(types.TypeDecorator, ScalarCoercible):
                     "'arrow' package is required to use 'EnrichedDateTimeType'"
                 )
 
-        super(EnrichedDateType, self).__init__(*args, **kwargs)
+        super(EnrichedDateTimeType, self).__init__(*args, **kwargs)
 
-    @staticmethod
-    def _coerce(value):
+    def _coerce(self, value):
         if value is not None and self.type == "pendulum":
             if isinstance(value, pendulum.DateTime):
                 pass
@@ -68,6 +71,11 @@ class EnrichedDateTimeType(types.TypeDecorator, ScalarCoercible):
                 value = pendulum.from_timestamp(value)
             elif isinstance(value, six.string_types) and value.isdigit():
                 value = pendulum.from_timestamp(int(value))
+            elif isinstance(value, datetime):
+                value = pendulum.datetime(value.year,
+                                          value.month, value.day,
+                                          value.hour, value.minute,
+                                          value.second, value.microsecond)
             else:
                 value = pendulum.parse(value)
         elif value is not None and self.type == "arrow":
@@ -85,7 +93,8 @@ class EnrichedDateTimeType(types.TypeDecorator, ScalarCoercible):
                 return self._coerce(value).in_tz("UTC")
             elif self.type == "arrow":
                 utc_val = self._coerce(value).to('UTC')
-                return utc_val.datetime if self.impl.timezone else utc_val.naive
+                return utc_val.datetime\
+                    if self.impl.timezone else utc_val.naive
         return value
 
     def process_result_value(self, value, dialect):
@@ -118,7 +127,7 @@ class EnrichedDateType(EnrichedDateTimeType):
         class User(Base):
             __tablename__ = 'user'
             id = sa.Column(sa.Integer, primary_key=True)
-            birthday = sa.Column(EnrichedDateType(type="pendulum"))  # not supported arrow
+            birthday = sa.Column(EnrichedDateType(type="pendulum"))
 
 
         user = User()
@@ -130,11 +139,10 @@ class EnrichedDateType(EnrichedDateTimeType):
 
     def __init__(self, type="pendulum", *args, **kwargs):
         self.type = type
-        super(PendulumDateType, self).__init__(*args, **kwargs)
+        super(EnrichedDateType, self).__init__(*args, **kwargs)
 
-    @staticmethod
-    def _coerce(value):
-        value = PendulumDateType._coerce(value)
+    def _coerce(self, value):
+        value = super(EnrichedDateType, self)._coerce(value)
         if value:
             if self.type == "pendulum":
                 if isinstance(value, pendulum.DateTime):
