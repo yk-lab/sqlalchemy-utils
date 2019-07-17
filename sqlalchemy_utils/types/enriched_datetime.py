@@ -13,10 +13,10 @@ except ImportError:
     pass
 
 pendulum = None
-    try:
-        import pendulum
-    except ImportError:
-        pass
+try:
+    import pendulum
+except ImportError:
+    pass
 
 
 class EnrichedDateTimeType(types.TypeDecorator, ScalarCoercible):
