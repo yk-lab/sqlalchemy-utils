@@ -28,7 +28,7 @@ class TestArrowDateTimeType(object):
 
     def test_parameter_processing(self, session, Article):
         article = Article(
-            created_at=arrow.arrow.get(datetime(2000, 11, 1))
+            created_at=enriched_datetime.arrow.get(datetime(2000, 11, 1))
         )
 
         session.add(article)
@@ -44,7 +44,7 @@ class TestArrowDateTimeType(object):
         assert article.created_at.year == 2013
 
     def test_utc(self, session, Article):
-        time = arrow.arrow.utcnow()
+        time = enriched_datetime.arrow.utcnow()
         article = Article(created_at=time)
         session.add(article)
         assert article.created_at == time
@@ -52,7 +52,7 @@ class TestArrowDateTimeType(object):
         assert article.created_at == time
 
     def test_other_tz(self, session, Article):
-        time = arrow.arrow.utcnow()
+        time = enriched_datetime.arrow.utcnow()
         local = time.to('US/Pacific')
         article = Article(created_at=local)
         session.add(article)
@@ -68,7 +68,7 @@ class TestArrowDateTimeType(object):
     @pytest.mark.usefixtures('postgresql_dsn')
     def test_timezone(self, session, Article):
         timezone = tz.gettz('Europe/Stockholm')
-        dt = arrow.arrow.get(datetime(2015, 1, 1, 15, 30, 45), timezone)
+        dt = enriched_datetime.arrow.get(datetime(2015, 1, 1, 15, 30, 45), timezone)
         article = Article(published_at=dt, published_at_dt=dt.datetime)
 
         session.add(article)

@@ -28,7 +28,7 @@ class TestPendulumDateType(object):
 
     def test_parameter_processing(self, session, User):
         user = User(
-            birthday=pendulum.pendulum.date(1995, 7, 11)
+            birthday=enriched_datetime.pendulum.date(1995, 7, 11)
         )
 
         session.add(user)
@@ -50,7 +50,7 @@ class TestPendulumDateType(object):
         assert user.birthday.year == 2013
 
     def test_utc(self, session, User):
-        time = pendulum.pendulum.now("UTC")
+        time = enriched_datetime.pendulum.now("UTC")
         user = User(birthday=time)
         session.add(user)
         assert user.birthday == time
@@ -68,7 +68,7 @@ class TestPendulumDateTimeType(object):
 
     def test_parameter_processing(self, session, User):
         user = User(
-            created_at=pendulum.pendulum.datetime(1995, 7, 11)
+            created_at=enriched_datetime.pendulum.datetime(1995, 7, 11)
         )
 
         session.add(user)
@@ -90,7 +90,7 @@ class TestPendulumDateTimeType(object):
         assert user.created_at.year == 2013
 
     def test_utc(self, session, User):
-        time = pendulum.pendulum.now("UTC")
+        time = enriched_datetime.pendulum.now("UTC")
         user = User(created_at=time)
         session.add(user)
         assert user.created_at == time
@@ -98,7 +98,7 @@ class TestPendulumDateTimeType(object):
         assert user.created_at == time
 
     def test_other_tz(self, session, User):
-        time = pendulum.pendulum.now("UTC")
+        time = enriched_datetime.pendulum.now("UTC")
         local = time.in_tz('Asia/Tokyo')
         user = User(created_at=local)
         session.add(user)

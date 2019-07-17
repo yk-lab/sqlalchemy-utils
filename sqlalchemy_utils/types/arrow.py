@@ -2,6 +2,12 @@ from __future__ import absolute_import
 
 from .enriched_datetime import EnrichedDateTimeType
 
+arrow = None
+try:
+    import arrow
+except ImportError:
+    pass
+
 class ArrowType(EnrichedDateTimeType):
     """
     ArrowType provides way of saving Arrow_ objects into database. It
