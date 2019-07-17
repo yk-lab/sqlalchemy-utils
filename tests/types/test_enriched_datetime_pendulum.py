@@ -23,7 +23,7 @@ def init_models(User):
     pass
 
 
-@pytest.mark.skipif('pendulum.pendulum is None')
+@pytest.mark.skipif('enriched_datetime.pendulum is None')
 class TestPendulumDateType(object):
 
     def test_parameter_processing(self, session, User):
@@ -63,7 +63,7 @@ class TestPendulumDateType(object):
         assert compiled == 'users.birthday > 2015-01-01'
 
 
-@pytest.mark.skipif('pendulum.pendulum is None')
+@pytest.mark.skipif('enriched_datetime.pendulum is None')
 class TestPendulumDateTimeType(object):
 
     def test_parameter_processing(self, session, User):

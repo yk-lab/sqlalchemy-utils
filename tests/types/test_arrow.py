@@ -23,7 +23,7 @@ def init_models(Article):
     pass
 
 
-@pytest.mark.skipif('arrow.arrow is None')
+@pytest.mark.skipif('arrow.enriched_datetime.arrow is None')
 class TestArrowDateTimeType(object):
 
     def test_parameter_processing(self, session, Article):
