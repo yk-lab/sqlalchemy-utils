@@ -40,8 +40,6 @@ class ArrowType(EnrichedDateTimeType):
         # 'an hour ago'
 
     """
-    impl = types.DateTime
-
     def __init__(self, *args, **kwargs):
         if not arrow:
             raise ImproperlyConfigured(
