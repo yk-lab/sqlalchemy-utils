@@ -12,8 +12,11 @@ def Article(Base):
     class Article(Base):
         __tablename__ = 'article'
         id = sa.Column(sa.Integer, primary_key=True)
-        created_at = sa.Column(enriched_datetime.EnrichedDateTimeType(type="arrow"))
-        published_at = sa.Column(enriched_datetime.EnrichedDateTimeType(type="arrow", timezone=True))
+        created_at = sa.Column(
+            enriched_datetime.EnrichedDateTimeType(type="arrow"))
+        published_at = sa.Column(
+            enriched_datetime.EnrichedDateTimeType(type="arrow",
+                                                   timezone=True))
         published_at_dt = sa.Column(sa.DateTime(timezone=True))
     return Article
 
@@ -68,7 +71,8 @@ class TestArrowDateTimeType(object):
     @pytest.mark.usefixtures('postgresql_dsn')
     def test_timezone(self, session, Article):
         timezone = tz.gettz('Europe/Stockholm')
-        dt = enriched_datetime.arrow.get(datetime(2015, 1, 1, 15, 30, 45), timezone)
+        dt = enriched_datetime.arrow.get(datetime(2015, 1, 1, 15, 30, 45),
+                                         timezone)
         article = Article(published_at=dt, published_at_dt=dt.datetime)
 
         session.add(article)

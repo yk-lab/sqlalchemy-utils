@@ -1,12 +1,14 @@
 from __future__ import absolute_import
 
 from .enriched_datetime import EnrichedDateTimeType
+from ..exceptions import ImproperlyConfigured
 
 arrow = None
 try:
     import arrow
 except ImportError:
     pass
+
 
 class ArrowType(EnrichedDateTimeType):
     """
