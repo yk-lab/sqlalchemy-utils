@@ -24,12 +24,12 @@ except ImportError:
 
 class EnrichedDateTimeType(types.TypeDecorator, ScalarCoercible):
     """
-    Pendulum and arrow support.
+    Supported for arrow and pendulum.
 
     Example::
 
 
-        from sqlalchemy_utils import EnrichedDateType
+        from sqlalchemy_utils import EnrichedDateTimeType
         import pendulum
 
 
@@ -115,7 +115,7 @@ class EnrichedDateTimeType(types.TypeDecorator, ScalarCoercible):
 
 class EnrichedDateType(EnrichedDateTimeType):
     """
-    Pendulum support only.
+    Supported for pendulum only.
 
     Example::
 
