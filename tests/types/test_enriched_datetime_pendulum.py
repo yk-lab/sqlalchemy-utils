@@ -53,7 +53,7 @@ class TestPendulumDateType(object):
         time = enriched_datetime.pendulum.now("UTC")
         user = User(birthday=time)
         session.add(user)
-        assert user.birthday == time
+        assert user.birthday == time.date()
         session.commit()
         assert user.birthday == time.date()
 
