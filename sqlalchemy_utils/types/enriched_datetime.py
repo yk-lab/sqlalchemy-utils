@@ -137,20 +137,24 @@ class EnrichedDateType(EnrichedDateTimeType):
     """
     impl = types.Date
 
-    def __init__(self, type="pendulum", *args, **kwargs):
-        self.type = type
+    def __init__(self, *args, **kwargs):
         super(EnrichedDateType, self).__init__(*args, **kwargs)
 
     def _coerce(self, value):
-        value = super(EnrichedDateType, self)._coerce(value)
         if value:
             if self.type == "pendulum":
-                if isinstance(value, pendulum.DateTime):
-                    value = value.date()
+                if not isinstance(value, pendulum.Date):
+                    value = super(EnrichedDateType, self)._coerce(value).date()
         return value
 
     def process_result_value(self, value, dialect):
         if value:
             if self.type == "pendulum":
                 return pendulum.parse(value.isoformat()).date()
+        return value
+
+    def process_bind_param(self, value, dialect):
+        if value:
+            if self.type == "pendulum":
+                return self._coerce(value)
         return value
