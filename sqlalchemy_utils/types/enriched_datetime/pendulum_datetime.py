@@ -14,7 +14,7 @@ class PendulumDateTime(object):
         if value is not None:
             if isinstance(value, pendulum.DateTime):
                 pass
-            elif isinstance(value, int):
+            elif isinstance(value, (int, float)):
                 value = pendulum.from_timestamp(value)
             elif isinstance(value, six.string_types) and value.isdigit():
                 value = pendulum.from_timestamp(int(value))
