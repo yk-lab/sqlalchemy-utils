@@ -35,7 +35,7 @@ class EnrichedDateType(types.TypeDecorator, ScalarCoercible):
     """
     impl = types.Date
 
-    def __init__(self, date_processor=PendulumDateTime, *args, **kwargs):
+    def __init__(self, date_processor=PendulumDate, *args, **kwargs):
         super(EnrichedDateType, self).__init__(*args, **kwargs)
         self.date_object = date_processor()
 
