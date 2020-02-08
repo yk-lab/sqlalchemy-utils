@@ -17,11 +17,11 @@ def Article(Base):
         id = sa.Column(sa.Integer, primary_key=True)
         created_at = sa.Column(
             enriched_datetime_type.EnrichedDateTimeType(
-                datetime_processor=arrow_datetime.ArrowDatetime
+                datetime_processor=arrow_datetime.ArrowDateTime
             ))
         published_at = sa.Column(
             enriched_datetime_type.EnrichedDateTimeType(
-                datetime_processor=arrow_datetime.ArrowDatetime,
+                datetime_processor=arrow_datetime.ArrowDateTime,
                 timezone=True
             ))
         published_at_dt = sa.Column(sa.DateTime(timezone=True))
