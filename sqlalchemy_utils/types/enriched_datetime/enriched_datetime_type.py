@@ -3,7 +3,7 @@ from sqlalchemy import types
 from ...exceptions import ImproperlyConfigured
 from ..scalar_coercible import ScalarCoercible
 from .arrow_datetime import ArrowDatetime
-from .pendulum_datetime import PendulumDatetime
+from .pendulum_datetime import PendulumDateTime
 
 arrow = None
 try:
