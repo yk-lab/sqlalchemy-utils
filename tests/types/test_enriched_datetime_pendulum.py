@@ -42,11 +42,17 @@ class TestPendulumDateTimeType(object):
         user = session.query(User).first()
         assert isinstance(user.created_at, datetime)
 
-    def test_int_coercion(self, User):
-        user = User(
-            created_at=1367900664
-        )
-        assert user.created_at.year == 2013
+        def test_int_coercion(self, User):
+            user = User(
+                created_at=1367900664
+            )
+            assert user.created_at.year == 2013
+
+        def test_float_coercion(self, User):
+            user = User(
+                created_at=1367900664.0
+            )
+            assert user.created_at.year == 2013
 
     def test_string_coercion(self, User):
         user = User(
