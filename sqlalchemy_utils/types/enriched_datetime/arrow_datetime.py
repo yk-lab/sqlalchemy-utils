@@ -2,6 +2,8 @@ from datetime import datetime
 
 import six
 
+from ...exceptions import ImproperlyConfigured
+
 try:
     from collections.abc import Iterable
 except ImportError:  # For python 2.7 support
@@ -15,6 +17,12 @@ except ImportError:
 
 
 class ArrowDateTime(object):
+    def __init__(self):
+        if not arrow:
+            raise ImproperlyConfigured(
+                "'arrow' package is required to use 'ArrowDateTime'"
+            )
+
     def _coerce(self, impl, value):
         if isinstance(value, six.string_types):
             value = arrow.get(value)

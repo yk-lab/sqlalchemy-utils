@@ -1,14 +1,7 @@
 from sqlalchemy import types
 
-from ...exceptions import ImproperlyConfigured
 from ..scalar_coercible import ScalarCoercible
 from .pendulum_date import PendulumDate
-
-pendulum = None
-try:
-    import pendulum
-except ImportError:
-    pass
 
 
 class EnrichedDateType(types.TypeDecorator, ScalarCoercible):

@@ -2,6 +2,9 @@ from datetime import datetime
 
 import six
 
+from ...exceptions import ImproperlyConfigured
+
+
 pendulum = None
 try:
     import pendulum
@@ -10,6 +13,12 @@ except ImportError:
 
 
 class PendulumDateTime(object):
+    def __init__(self):
+        if not pendulum:
+            raise ImproperlyConfigured(
+                "'pendulum' package is required to use 'PendulumDateTime'"
+            )
+
     def _coerce(self, impl, value):
         if value is not None:
             if isinstance(value, pendulum.DateTime):
