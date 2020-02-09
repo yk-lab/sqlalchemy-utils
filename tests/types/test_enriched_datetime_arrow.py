@@ -79,7 +79,7 @@ class TestArrowDateTimeType(object):
     def test_timezone(self, session, Article):
         timezone = tz.gettz('Europe/Stockholm')
         dt = arrow_datetime.arrow.get(datetime(2015, 1, 1, 15, 30, 45),
-                                              timezone)
+                                      timezone)
         article = Article(published_at=dt, published_at_dt=dt.datetime)
 
         session.add(article)
