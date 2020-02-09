@@ -4,7 +4,6 @@ import six
 
 from ...exceptions import ImproperlyConfigured
 
-
 pendulum = None
 try:
     import pendulum

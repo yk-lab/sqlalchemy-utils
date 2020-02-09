@@ -5,8 +5,8 @@ import sqlalchemy as sa
 from dateutil import tz
 
 from sqlalchemy_utils.types.enriched_datetime import (
+    arrow_datetime,
     enriched_datetime_type,
-    arrow_datetime
 )
 
 
